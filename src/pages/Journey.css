@@ -1,0 +1,116 @@
+.journey-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.journey-card {
+  max-width: 600px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.journey-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.progress-indicator {
+  background: rgba(79, 70, 229, 0.1);
+  color: var(--primary-color);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.journey-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.journey-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.journey-description {
+  font-size: 1.125rem;
+  opacity: 0.8;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.journey-action {
+  margin-bottom: 2rem;
+}
+
+.action-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--bg-color);
+  border: 1px solid var(--primary-color);
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.action-link:hover {
+  background: rgba(79, 70, 229, 0.05);
+  transform: translateX(4px);
+}
+
+.action-icon {
+  color: var(--primary-color);
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.journey-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.journey-option-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.journey-option-btn:hover {
+  border-color: var(--primary-color);
+  background: rgba(79, 70, 229, 0.05);
+  transform: translateY(-2px);
+}
+
+.option-icon {
+  color: var(--secondary-color);
+  flex-shrink: 0;
+}
+
+.journey-footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+}

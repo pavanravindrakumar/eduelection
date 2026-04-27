@@ -1,0 +1,72 @@
+.fact-checker-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.fact-checker-card {
+  max-width: 600px;
+  padding: 2rem;
+}
+
+.fact-check-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.textarea-input {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.fact-result {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-color);
+}
+
+.fact-result.verdict-true {
+  border-color: var(--success-color);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.fact-result.verdict-false {
+  border-color: #EF4444;
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.fact-result.verdict-misleading {
+  border-color: #F59E0B;
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.result-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.verdict-true { color: var(--success-color); }
+.verdict-false { color: #EF4444; }
+.verdict-misleading { color: #F59E0B; }
+.verdict-error { color: var(--text-color); }
+
+.result-body p {
+  line-height: 1.6;
+  font-size: 1.125rem;
+}
