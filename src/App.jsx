@@ -62,7 +62,7 @@ function App() {
               {isMenuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
             </button>
 
-            <nav className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
+            <nav className={`nav-links ${isMenuOpen ? 'open' : ''}`} aria-label="Main Navigation">
               <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
               <Link to="/assistant" onClick={() => setIsMenuOpen(false)}>AI Assistant</Link>
               <Link to="/constituency" onClick={() => setIsMenuOpen(false)}>Find Booth</Link>
