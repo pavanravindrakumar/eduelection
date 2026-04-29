@@ -129,3 +129,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+.error-message {
+  color: #EF4444;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  text-align: center;
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Settings, Moon, Sun, Type, Menu, X } from 'lucide-react';
+import { Settings, Moon, Sun, Type, Menu, X, Loader2 } from 'lucide-react';
 import './App.css';
 
 // Lazy load pages for better performance
@@ -14,8 +14,16 @@ const FactChecker = lazy(() => import('./pages/FactChecker'));
 const ConstituencyFinder = lazy(() => import('./pages/ConstituencyFinder'));
 
 const LoadingFallback = () => (
-  <div className="flex items-center justify-center min-h-[50vh]">
-    <div className="animate-pulse text-primary font-medium">Loading...</div>
+  <div className="loading-fallback" aria-live="polite" aria-busy="true">
+    <div className="skeleton-card">
+      <div className="skeleton-icon animate-pulse"></div>
+      <div className="skeleton-text animate-pulse"></div>
+      <div className="skeleton-text animate-pulse short"></div>
+    </div>
+    <div className="loading-spinner">
+      <Loader2 className="animate-spin text-primary" size={32} />
+      <span>Loading module...</span>
+    </div>
   </div>
 );
 
@@ -27,6 +35,14 @@ function App() {
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
+    // Theme color meta tag for PWA/Mobile
+    let metaThemeColor = document.querySelector("meta[name=theme-color]");
+    if (!metaThemeColor) {
+      metaThemeColor = document.createElement("meta");
+      metaThemeColor.name = "theme-color";
+      document.head.appendChild(metaThemeColor);
+    }
+    metaThemeColor.setAttribute("content", theme === 'dark' ? '#1e1e2d' : '#4F46E5');
   }, [theme]);
 
   useEffect(() => {
@@ -51,14 +67,14 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-        <header className="navbar">
+        <header className="navbar" role="banner">
           <div className="navbar-content container">
-            <Link to="/" className="brand">
-              <span className="brand-icon">🗳️</span>
+            <Link to="/" className="brand" aria-label="VoteWise AI Home">
+              <span className="brand-icon" aria-hidden="true">🗳️</span>
               <span className="brand-text">VoteWise AI</span>
             </Link>
 
-            <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu" aria-expanded={isMenuOpen}>
+            <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle navigation menu" aria-expanded={isMenuOpen}>
               {isMenuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
             </button>
 
@@ -85,7 +101,7 @@ function App() {
               </button>
 
               {showA11yMenu && (
-                <div className="a11y-menu card animate-fade-in">
+                <div className="a11y-menu card animate-fade-in" role="dialog" aria-label="Accessibility Options">
                   <h4>Accessibility</h4>
                   <div className="a11y-option">
                     <span id="theme-label">Theme</span>
@@ -109,7 +125,7 @@ function App() {
           </div>
         </header>
 
-        <main className="main-content container">
+        <main className="main-content container" role="main">
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -124,9 +140,15 @@ function App() {
           </Suspense>
         </main>
         
-        <footer className="footer">
+        <footer className="footer" role="contentinfo">
           <div className="container">
             <p>VoteWise AI - Hack2Skill Visual Prompt Wars</p>
+            <div className="footer-badges" aria-label="Footer Tech Stack">
+              <span className="footer-badge">React</span>
+              <span className="footer-badge">Cloud Run</span>
+              <span className="footer-badge">Gemini</span>
+              <span className="footer-badge">A11y Ready</span>
+            </div>
           </div>
         </footer>
       </div>

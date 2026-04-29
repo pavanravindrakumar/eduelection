@@ -11,9 +11,11 @@ const EligibilityChecker = () => {
   });
   
   const [result, setResult] = useState(null);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = React.useCallback((e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setErrorMsg('');
   }, []);
 
   const checkEligibility = React.useCallback((e) => {
@@ -24,7 +26,11 @@ const EligibilityChecker = () => {
     const isResident = formData.residence === 'yes';
     const isDisqualified = formData.disqualified === 'yes';
 
-    if (isNaN(age)) return;
+    if (isNaN(age) || age < 0) {
+      setErrorMsg("Please enter a valid age.");
+      setResult(null);
+      return;
+    }
 
     if (!isCitizen) {
       setResult({
@@ -116,7 +122,12 @@ const EligibilityChecker = () => {
               </div>
             </div>
 
-            <button type="submit" className="btn-primary w-full mt-4">Check Eligibility</button>
+            <button type="submit" className="btn-primary w-full mt-4" aria-label="Check my voting eligibility">Check Eligibility</button>
+            {errorMsg && (
+              <div className="error-message" role="alert">
+                {errorMsg}
+              </div>
+            )}
           </form>
         </div>
 

@@ -8,10 +8,12 @@ const ConstituencyFinder = () => {
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLocating, setIsLocating] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleLocateMe = React.useCallback(() => {
+    setErrorMsg('');
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser");
+      setErrorMsg("Geolocation is not supported by your browser");
       return;
     }
     setIsLocating(true);
@@ -21,18 +23,23 @@ const ConstituencyFinder = () => {
         // Simulate a reverse geocoded pincode based on coords
         // In a real app, you'd use a Geocoding API here.
         setPincode('500001'); // Auto-fill with a valid mock pincode
+        setErrorMsg('');
       },
       (error) => {
         setIsLocating(false);
-        alert("Unable to retrieve your location");
+        setErrorMsg("Unable to retrieve your location. Please check your permissions or enter manually.");
       }
     );
   }, []);
 
   const handleSearch = React.useCallback((e) => {
     e.preventDefault();
+    setErrorMsg('');
     const sanitizedPincode = sanitizeInput(pincode);
-    if (!sanitizedPincode) return;
+    if (!sanitizedPincode) {
+      setErrorMsg("Please enter a valid pincode.");
+      return;
+    }
 
     setIsLoading(true);
     
@@ -104,6 +111,11 @@ const ConstituencyFinder = () => {
                 <Crosshair size={20} className={isLocating ? 'animate-spin' : ''} />
               </button>
             </div>
+            {errorMsg && (
+              <div className="error-message" role="alert">
+                {errorMsg}
+              </div>
+            )}
           </form>
 
           {result && (

@@ -1,8 +1,48 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, Mic, MicOff, Volume2, VolumeX } from 'lucide-react';
+import { Send, Bot, User, Loader2, Mic, MicOff, Volume2, VolumeX, AlertCircle } from 'lucide-react';
 import { getGeminiResponse } from '../services/geminiService';
 import { sanitizeInput } from '../utils/sanitize';
 import './Assistant.css';
+
+const formatBold = (text) => {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i}>{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+};
+
+const formatMessage = (text) => {
+  const lines = text.split('\n');
+  let inList = false;
+  const elements = [];
+  let listItems = [];
+
+  const flushList = () => {
+    if (inList && listItems.length > 0) {
+      elements.push(<ul key={`ul-${elements.length}`} className="bot-list">{listItems}</ul>);
+      listItems = [];
+      inList = false;
+    }
+  };
+
+  lines.forEach((line, i) => {
+    const trimmed = line.trim();
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      inList = true;
+      listItems.push(<li key={`li-${i}`}>{formatBold(trimmed.substring(2))}</li>);
+    } else {
+      flushList();
+      if (trimmed) {
+        elements.push(<p key={`p-${i}`} className="bot-paragraph">{formatBold(trimmed)}</p>);
+      }
+    }
+  });
+  flushList();
+  return elements.length > 0 ? elements : <p>{text}</p>;
+};
 
 const Assistant = () => {
   const [messages, setMessages] = useState([
@@ -37,7 +77,6 @@ const Assistant = () => {
         const transcript = event.results[0][0].transcript;
         setInput(transcript);
         
-        // Auto-send when voice input finishes
         if (event.results[0].isFinal) {
           submitQuery(transcript);
         }
@@ -78,17 +117,20 @@ const Assistant = () => {
   const speakText = (text) => {
     if (!voiceEnabled || !('speechSynthesis' in window)) return;
     
-    window.speechSynthesis.cancel(); // Cancel any ongoing speech
+    window.speechSynthesis.cancel(); 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = language;
-    // Remove markdown asterisks for better speech parsing
     utterance.text = text.replace(/\*/g, '');
     window.speechSynthesis.speak(utterance);
   };
 
   const submitQuery = React.useCallback(async (queryText) => {
     const sanitizedQuery = sanitizeInput(queryText);
-    if (!sanitizedQuery) return;
+    if (!sanitizedQuery) {
+      // Client-side validation: Notify user of empty or invalid input
+      setMessages(prev => [...prev, { id: Date.now(), text: "Please enter a valid message.", isBot: true, error: true }]);
+      return;
+    }
 
     const userMessage = { id: Date.now(), text: sanitizedQuery, isBot: false };
     setMessages(prev => [...prev, userMessage]);
@@ -122,19 +164,19 @@ const Assistant = () => {
   };
 
   return (
-    <div className="assistant-container animate-fade-in">
-      <div className="chat-header">
-        <Bot size={32} className="text-primary" />
+    <div className="assistant-container animate-fade-in" role="main">
+      <div className="chat-header card">
+        <Bot size={32} className="text-primary" aria-hidden="true" />
         <div style={{ flex: 1 }}>
           <h2>VoteWise AI Assistant</h2>
-          <p>Powered by Google Gemini</p>
+          <p className="text-sm opacity-80">Powered by Google Gemini</p>
         </div>
         <select 
           value={language} 
           onChange={(e) => setLanguage(e.target.value)}
           className="input"
-          style={{ width: 'auto', padding: '0.25rem', marginRight: '0.5rem', fontSize: '0.85rem' }}
-          aria-label="Select language"
+          style={{ width: 'auto', padding: '0.4rem', marginRight: '0.5rem', fontSize: '0.85rem' }}
+          aria-label="Select conversational language"
         >
           <option value="en-IN">English</option>
           <option value="hi-IN">Hindi</option>
@@ -150,14 +192,21 @@ const Assistant = () => {
         </button>
       </div>
       
-      <div className="chat-messages card">
+      <div className="chat-messages card" aria-live="polite">
         {messages.map((msg) => (
           <div key={msg.id} className={`message-wrapper ${msg.isBot ? 'bot' : 'user'}`}>
             <div className="message-avatar">
               {msg.isBot ? <Bot size={20} /> : <User size={20} />}
             </div>
             <div className={`message-bubble ${msg.error ? 'error' : ''}`}>
-              {msg.text}
+              {msg.error ? (
+                <div className="flex items-center gap-2">
+                  <AlertCircle size={16} />
+                  <span>{msg.text}</span>
+                </div>
+              ) : (
+                msg.isBot ? formatMessage(msg.text) : msg.text
+              )}
             </div>
           </div>
         ))}
@@ -166,11 +215,19 @@ const Assistant = () => {
             <div className="message-avatar"><Bot size={20} /></div>
             <div className="message-bubble typing">
               <Loader2 className="animate-spin" size={20} />
-              Thinking...
+              <span>Analyzing query...</span>
             </div>
           </div>
         )}
         <div ref={messagesEndRef} />
+      </div>
+
+      <div className="faq-suggestions" aria-label="Suggested Prompts">
+        <button type="button" onClick={() => submitQuery("How do I register to vote?")} className="faq-chip">How do I register?</button>
+        <button type="button" onClick={() => submitQuery("What documents do I need?")} className="faq-chip">Required documents?</button>
+        <button type="button" onClick={() => submitQuery("What is the voting process like?")} className="faq-chip">Voting process?</button>
+        <button type="button" onClick={() => submitQuery("How to find my polling booth?")} className="faq-chip">Find polling booth?</button>
+        <button type="button" onClick={() => submitQuery("Is EVM safe?")} className="faq-chip">Is EVM safe?</button>
       </div>
 
       <form onSubmit={handleSend} className="chat-input-form card">
@@ -189,17 +246,12 @@ const Assistant = () => {
           placeholder={isListening ? "Listening..." : "Ask about registration, documents, voting process..."}
           className="input chat-input"
           disabled={isLoading}
+          aria-label="Message input"
         />
         <button type="submit" disabled={!input.trim() || isLoading} className="send-btn" aria-label="Send message">
           <Send size={20} />
         </button>
       </form>
-      
-      <div className="faq-suggestions">
-        <button type="button" onClick={() => setInput("How do I register to vote?")} className="faq-chip">How do I register?</button>
-        <button type="button" onClick={() => setInput("What documents do I need?")} className="faq-chip">Required documents?</button>
-        <button type="button" onClick={() => setInput("What is the voting process like?")} className="faq-chip">Voting process?</button>
-      </div>
     </div>
   );
 };

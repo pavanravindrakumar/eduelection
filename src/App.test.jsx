@@ -19,7 +19,7 @@ describe('Home Component', () => {
         <Home />
       </BrowserRouter>
     );
-    expect(screen.getByText(/Now with Voice Input/i)).toBeInTheDocument();
+    expect(screen.getByText(/Voice enabled/i)).toBeInTheDocument();
     expect(screen.getByText(/Interactive Timeline/i)).toBeInTheDocument();
     expect(screen.getByText(/Eligibility Checker/i)).toBeInTheDocument();
     expect(screen.getByText(/Voting Simulator/i)).toBeInTheDocument();
