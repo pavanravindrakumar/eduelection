@@ -5,7 +5,7 @@ VoteWise AI is an interactive, intelligent companion built to simplify the democ
 
 ## 🚀 Live Demo
 
-[**🔗 View Live Application Here**](#) *(Replace with deployed link)*
+[**🔗 View Live Application Here**](#) *(https://eduelection-969608625657.us-central1.run.app/)*
 
 ## ✨ Features
 
