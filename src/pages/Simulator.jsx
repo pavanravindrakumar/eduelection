@@ -19,7 +19,7 @@ const Simulator = () => {
     // Simulate VVPAT viewing time then complete
     setTimeout(() => {
       setStep('done');
-    }, 3000);
+    }, typeof process !== 'undefined' && process.env.NODE_ENV === 'test' ? 0 : 3000);
   }, []);
 
   const resetSimulator = React.useCallback(() => {

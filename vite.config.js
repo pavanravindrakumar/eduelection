@@ -7,6 +7,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.js'],
-    globals: true
+    globals: true,
+    pool: 'forks'
   }
 })

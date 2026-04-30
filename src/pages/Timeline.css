@@ -63,13 +63,13 @@
   flex: 1;
   background: var(--border-color);
   margin: 0.5rem 0;
-  min-height: 40px;
+  min-height: 60px;
   transition: background 0.3s;
 }
 
 .timeline-content {
   padding-top: 0.5rem;
-  padding-bottom: 2rem;
+  padding-bottom: 3rem;
   transition: transform 0.3s;
 }
 

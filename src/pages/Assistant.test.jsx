@@ -67,13 +67,13 @@ describe('Assistant Component', () => {
     // Check user query rendered
     expect(screen.getByText('How to register?')).toBeInTheDocument();
     // Check loading indicator
-    expect(screen.getByText(/Analyzing query.../i)).toBeInTheDocument();
+    expect(screen.getByText(/Thinking\.\.\./i)).toBeInTheDocument();
 
     await waitFor(() => {
       expect(screen.getByText(/Here is the registration process./i)).toBeInTheDocument();
     });
     // Ensure loading indicator is removed
-    expect(screen.queryByText(/Analyzing query.../i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Thinking\.\.\./i)).not.toBeInTheDocument();
   });
 
   it('displays error fallback gracefully when API fails', async () => {

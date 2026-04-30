@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Simulator from '../pages/Simulator';
 
@@ -31,9 +31,9 @@ describe('Simulator Component', () => {
     
     expect(screen.getByText(/VVPAT Verification/i)).toBeInTheDocument();
     
-    // After 3 seconds, it should move to done step
+    // Fast-forward to trigger the transition
     await waitFor(() => {
       expect(screen.getByText(/Vote Cast Successfully!/i)).toBeInTheDocument();
-    }, { timeout: 4000 });
+    });
   });
 });

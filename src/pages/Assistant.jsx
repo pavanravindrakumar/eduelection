@@ -210,15 +210,7 @@ const Assistant = () => {
             </div>
           </div>
         ))}
-        {isLoading && (
-          <div className="message-wrapper bot">
-            <div className="message-avatar"><Bot size={20} /></div>
-            <div className="message-bubble typing">
-              <Loader2 className="animate-spin" size={20} />
-              <span>Analyzing query...</span>
-            </div>
-          </div>
-        )}
+        {isLoading && <p className="loading-state" style={{margin: '1rem 0', opacity: 0.7, display: 'flex', alignItems: 'center', gap: '0.5rem'}}><Loader2 size={16} className="animate-spin text-primary"/> Thinking...</p>}
         <div ref={messagesEndRef} />
       </div>
 
@@ -243,7 +235,7 @@ const Assistant = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder={isListening ? "Listening..." : "Ask about registration, documents, voting process..."}
+          placeholder={isListening ? "Listening..." : "Ask anything about elections..."}
           className="input chat-input"
           disabled={isLoading}
           aria-label="Message input"

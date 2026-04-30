@@ -22,10 +22,34 @@ const LoadingFallback = () => (
     </div>
     <div className="loading-spinner">
       <Loader2 className="animate-spin text-primary" size={32} />
-      <span>Loading module...</span>
+      <span>Loading...</span>
     </div>
   </div>
 );
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="error-fallback card container" style={{ margin: '2rem auto', textAlign: 'center' }}>
+          <h2>Something went wrong</h2>
+          <p>We're sorry, but an unexpected error occurred.</p>
+          <button onClick={() => window.location.reload()} className="btn-primary mt-4">Refresh Page</button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -65,7 +89,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="app-container">
         <header className="navbar" role="banner">
           <div className="navbar-content container">
@@ -126,24 +150,28 @@ function App() {
         </header>
 
         <main className="main-content container" role="main">
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/assistant" element={<Assistant />} />
-              <Route path="/constituency" element={<ConstituencyFinder />} />
-              <Route path="/timeline" element={<TimelinePage />} />
-              <Route path="/simulator" element={<Simulator />} />
-              <Route path="/eligibility" element={<EligibilityChecker />} />
-              <Route path="/fact-check" element={<FactChecker />} />
-              <Route path="/journey" element={<Journey />} />
-            </Routes>
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/assistant" element={<Assistant />} />
+                <Route path="/constituency" element={<ConstituencyFinder />} />
+                <Route path="/timeline" element={<TimelinePage />} />
+                <Route path="/simulator" element={<Simulator />} />
+                <Route path="/eligibility" element={<EligibilityChecker />} />
+                <Route path="/fact-check" element={<FactChecker />} />
+                <Route path="/journey" element={<Journey />} />
+              </Routes>
+            </Suspense>
+          </ErrorBoundary>
         </main>
         
         <footer className="footer" role="contentinfo">
-          <div className="container">
+          <div className="container" style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center' }}>
             <p>VoteWise AI - Hack2Skill Visual Prompt Wars</p>
-            <div className="footer-badges" aria-label="Footer Tech Stack">
+            <p>Built with ❤️ using Google Cloud & Gemini AI</p>
+            <a href="https://github.com/placeholder" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>GitHub Repository</a>
+            <div className="footer-badges" aria-label="Footer Tech Stack" style={{ marginTop: '0.5rem' }}>
               <span className="footer-badge">React</span>
               <span className="footer-badge">Cloud Run</span>
               <span className="footer-badge">Gemini</span>

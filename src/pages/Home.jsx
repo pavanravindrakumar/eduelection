@@ -11,9 +11,6 @@ import {
   Zap,
   Cloud,
   CheckCircle,
-  Smartphone,
-  Server,
-  FileCode2,
   Accessibility,
   Check,
   Activity
@@ -148,26 +145,50 @@ const Home = () => {
         </h1>
 
         <p className="hero-subtitle">
-          Your interactive guide to understanding the election process,
-          verifying eligibility, and experiencing a simulated vote.
+          Empowering voters with AI-driven insights and real-time election tools. Your interactive guide to understanding the election process, verifying eligibility, and experiencing a simulated vote.
         </p>
 
         <div className="hero-actions">
-          <Link to="/journey" className="btn-primary">
-            Start Your Journey <ArrowRight size={18} />
+          <Link to="/journey" className="primary-btn">
+            Start Journey
           </Link>
 
-          <Link to="/assistant" className="btn-secondary">
-            Ask AI Assistant
+          <Link to="/assistant" className="secondary-btn">
+            Try AI Assistant
           </Link>
         </div>
 
         <div className="trust-badges" aria-label="Trust Signals">
-          <span className="trust-badge"><Bot size={14} /> AI Powered (Gemini)</span>
-          <span className="trust-badge"><Cloud size={14} /> Google Cloud Run Deployed</span>
-          <span className="trust-badge"><MapPin size={14} /> Google Maps Enabled</span>
-          <span className="trust-badge"><Accessibility size={14} /> Accessibility Tested</span>
-          <span className="trust-badge"><CheckCircle size={14} /> Fact Check Verified</span>
+          <span className="trust-badge"><Bot size={14} /> Gemini AI</span>
+          <span className="trust-badge"><Cloud size={14} /> Google Cloud</span>
+          <span className="trust-badge"><MapPin size={14} /> Maps API</span>
+        </div>
+      </section>
+
+      <div className="impact-strip">
+        <div>⚡ AI Powered</div>
+        <div>🗳️ Voter Awareness</div>
+        <div>☁️ Cloud Deployed</div>
+      </div>
+
+      <section className="how-it-works card" aria-label="How it works">
+        <h2 className="text-center mb-6">How It Works</h2>
+        <div className="steps-container">
+          <div className="step-card">
+            <div className="step-number">1</div>
+            <h3>Check Eligibility</h3>
+            <p>Verify if you are eligible to vote instantly.</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">2</div>
+            <h3>Find Constituency</h3>
+            <p>Locate your polling booth easily.</p>
+          </div>
+          <div className="step-card">
+            <div className="step-number">3</div>
+            <h3>Ask AI Assistant</h3>
+            <p>Get real-time answers to your election queries.</p>
+          </div>
         </div>
       </section>
 
@@ -176,14 +197,25 @@ const Home = () => {
       </div>
 
       <section className="impact-metrics" aria-label="Impact Metrics">
-        <StatCounter end={543} label="Constituencies Supported" icon={Map} suffix="+" />
-        <StatCounter end={1200} label="Claims Fact-Checked" icon={ShieldAlert} suffix="+" />
-        <StatCounter end={98} label="Voter Readiness Assisted" icon={UserCheck} suffix="%" />
         <div className="metric-card card static">
-          <CheckCircle className="metric-icon" size={24} />
+          <Map className="metric-icon" size={24} />
           <div className="metric-content">
-            <span className="metric-value">14+</span>
-            <span className="metric-label">Passing Tests</span>
+            <span className="metric-value">5+</span>
+            <span className="metric-label">Tools</span>
+          </div>
+        </div>
+        <div className="metric-card card static">
+          <Bot className="metric-icon" size={24} />
+          <div className="metric-content">
+            <span className="metric-value">Instant</span>
+            <span className="metric-label">AI Response</span>
+          </div>
+        </div>
+        <div className="metric-card card static">
+          <UserCheck className="metric-icon" size={24} />
+          <div className="metric-content">
+            <span className="metric-value">Smart</span>
+            <span className="metric-label">Voter Guidance</span>
           </div>
         </div>
       </section>

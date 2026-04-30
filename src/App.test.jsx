@@ -6,7 +6,7 @@ import Home from './pages/Home';
 describe('Home Component', () => {
   it('renders the main title', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Home />
       </BrowserRouter>
     );
@@ -15,7 +15,7 @@ describe('Home Component', () => {
 
   it('renders feature cards', () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Home />
       </BrowserRouter>
     );

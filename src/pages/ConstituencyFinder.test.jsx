@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ConstituencyFinder from './ConstituencyFinder';
 
@@ -18,7 +18,7 @@ describe('ConstituencyFinder Component', () => {
     
     await waitFor(() => {
       expect(screen.getByText(/Hyderabad Central/i)).toBeInTheDocument();
-    }, { timeout: 1500 });
+    });
   });
 
   it('disables the search button for invalid empty input', async () => {

@@ -35,7 +35,7 @@ const EligibilityChecker = () => {
     if (!isCitizen) {
       setResult({
         eligible: false,
-        reason: "You must be a citizen of the country to be eligible to vote."
+        reason: "Only citizens are eligible to vote. Check guidelines for NRI voting if you are a citizen living abroad."
       });
     } else if (age < 18) {
       setResult({
@@ -137,8 +137,8 @@ const EligibilityChecker = () => {
               <div className="result-icon">
                 {result.eligible ? <ShieldCheck size={48} /> : <ShieldAlert size={48} />}
               </div>
-              <h2>{result.eligible ? 'You are Eligible!' : 'Not Eligible'}</h2>
-              <p>{result.reason}</p>
+              <h2>{result.eligible ? 'You are Eligible! 🎉' : 'Not Eligible ⚠️'}</h2>
+              <p style={{ fontSize: '1.1rem', fontWeight: '500', margin: '1rem 0' }}>{result.reason}</p>
               
               {result.eligible && (
                 <div className="next-steps">

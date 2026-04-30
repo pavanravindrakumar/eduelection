@@ -68,7 +68,7 @@ const ConstituencyFinder = () => {
 
       setResult(mockData);
       setIsLoading(false);
-    }, 1000);
+    }, typeof process !== 'undefined' && process.env.NODE_ENV === 'test' ? 0 : 1000);
   }, [pincode]);
 
   return (
@@ -118,7 +118,12 @@ const ConstituencyFinder = () => {
             )}
           </form>
 
-          {result && (
+          {isLoading ? (
+            <div className="card text-center mt-6 p-6 animate-fade-in">
+              <Crosshair size={48} className="text-primary animate-spin mx-auto mb-4" />
+              <p>Fetching your constituency details...</p>
+            </div>
+          ) : result && (
             <div className="constituency-details animate-fade-in mt-6" role="region" aria-live="polite" aria-label="Constituency Search Results">
               <h3>Results</h3>
               <div className="detail-item">
