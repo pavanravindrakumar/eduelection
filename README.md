@@ -62,11 +62,25 @@ npm run test
 
 ## 🚀 Deployment
 
-Deploy seamlessly to Google Cloud Run:
+### GitHub Pages (Primary)
 
-```bash
-gcloud run deploy eduelection --source . --port 8080
+This repository now includes `/home/runner/work/eduelection/eduelection/.github/workflows/deploy-pages.yml` for automated GitHub Pages deployment.
+
+- Push to `main` or `master`, or run the workflow manually from **Actions**.
+- The app is built with `npm ci && npm run build` and deployed from `dist/`.
+
+Live URL pattern:
+
+```text
+https://pavanravindrakumar.github.io/eduelection/
 ```
+
+### Vercel (Fallback)
+
+If GitHub Pages is unavailable in repository settings, deploy this same Vite app on Vercel by importing the repository and using:
+
+- Build command: `npm run build`
+- Output directory: `dist`
 
 ## 🔮 Future Scope
 
