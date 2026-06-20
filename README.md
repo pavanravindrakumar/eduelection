@@ -64,7 +64,7 @@ npm run test
 
 ### GitHub Pages (Primary)
 
-This repository now includes `/home/runner/work/eduelection/eduelection/.github/workflows/deploy-pages.yml` for automated GitHub Pages deployment.
+This repository now includes `.github/workflows/deploy-pages.yml` for automated GitHub Pages deployment.
 
 - Push to `main` or `master`, or run the workflow manually from **Actions**.
 - The app is built with `npm ci && npm run build` and deployed from `dist/`.
