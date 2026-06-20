@@ -3,9 +3,6 @@
 
 VoteWise AI is an interactive, intelligent companion built to simplify the democratic process. From checking eligibility and locating polling booths to interacting with a virtual voting simulator, we leverage modern AI and cloud technologies to ensure every citizen is prepared and confident to cast their vote.
 
-## 🚀 Live Demo
-
-[**🔗 View Live Application Here**](#) *(https://eduelection-969608625657.us-central1.run.app/)*
 
 ## ✨ Features
 
