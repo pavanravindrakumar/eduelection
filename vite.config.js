@@ -2,11 +2,14 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
-const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1]
+const githubRepository = process.env.GITHUB_REPOSITORY
+const repoName = githubRepository && githubRepository.includes('/')
+  ? githubRepository.split('/')[1]
+  : undefined
 const githubPagesBase = repoName ? `/${repoName}/` : '/'
 
 export default defineConfig({
-  base: process.env.GITHUB_ACTIONS === 'true' ? githubPagesBase : '/',
+  base: process.env.GITHUB_ACTIONS ? githubPagesBase : '/',
   plugins: [react()],
   test: {
     environment: 'jsdom',
