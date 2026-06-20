@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 const githubRepository = process.env.GITHUB_REPOSITORY
+// Expected format: owner/repo
 const repoMatch = githubRepository?.match(/^[^/]+\/([^/]+)$/)
 const repoName = repoMatch?.[1]
 const githubPagesBase = repoName ? `/${repoName}/` : '/'
